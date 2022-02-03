@@ -92,7 +92,7 @@ export class FxVpc extends Construct {
           vpc: this.vpc,
           securityGroup,
           subnetSelection: { subnetType: ec2.SubnetType.PUBLIC },
-          instanceType: ec2.InstanceType.of(ec2.InstanceClass.T3, ec2.InstanceSize.MICRO),
+          instanceType: ec2.InstanceType.of(ec2.InstanceClass.T4G, ec2.InstanceSize.NANO),
           machineImage: ec2.MachineImage.latestAmazonLinux({ generation: ec2.AmazonLinuxGeneration.AMAZON_LINUX_2 }),
         }),
         securityGroup,
