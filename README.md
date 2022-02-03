@@ -1,6 +1,10 @@
 # fx-cdk-recipes
 
-AWS recipes created with AWS CDK and TypeScript.
+Recipes for AWS infra in aws-cdk + TypeScript.
+
+Refer to the constructs in the `lib/` folder.
+
+The constructs in this repo generally apply defaults that are suited for non-production development and proof-of-concept scenarios. They can serve as a reference and provide boilerplate/starter code for project-specific production-grade architecture.
 
 The `cdk.json` file includes the configuration for CDK Toolkit.
 
