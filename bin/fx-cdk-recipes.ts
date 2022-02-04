@@ -2,6 +2,7 @@
 import 'source-map-support/register'
 import * as cdk from 'aws-cdk-lib'
 import { FxCdkStack } from '../lib/fx-cdk-stack'
+import { FxHttpApiStack } from '../lib/stacks/api/fx-http-api-stack'
 
 const app = new cdk.App()
 
@@ -12,5 +13,9 @@ const env = {
 }
 
 new FxCdkStack(app, 'FxCdkStack', {
+  env,
+})
+
+const httpApiStack = new FxHttpApiStack(app, 'FxHttpApiStack', {
   env,
 })
