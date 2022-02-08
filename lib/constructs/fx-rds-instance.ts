@@ -95,6 +95,7 @@ export class FxRdsInstance extends Construct {
         username: this.secret.secretValueFromJson('username').toString(),
         password: this.secret.secretValueFromJson('password'),
       },
+      // parameterGroup: rds.ParameterGroup.fromParameterGroupName(this, ), // @todo - add parameterGroup
       allocatedStorage: 5,
       autoMinorVersionUpgrade: true,
       iamAuthentication: props.iamAuthentication ?? false,

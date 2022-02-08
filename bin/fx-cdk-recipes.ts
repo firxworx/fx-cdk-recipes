@@ -12,10 +12,14 @@ const env = {
   region: app.node.tryGetContext('account') || process.env.CDK_DEPLOY_REGION || process.env.CDK_DEFAULT_REGION,
 }
 
-new FxCdkStack(app, 'FxCdkStack', {
+// cdk deploy FxCdkStack
+
+const fxCdkStack = new FxCdkStack(app, 'FxCdkStack', {
   env,
 })
 
 const httpApiStack = new FxHttpApiStack(app, 'FxHttpApiStack', {
   env,
 })
+
+console.log(httpApiStack.httpEndpoint)
