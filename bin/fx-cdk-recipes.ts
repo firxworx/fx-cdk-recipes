@@ -13,11 +13,11 @@ const env = {
 }
 
 // cdk deploy FxCdkStack
-
 const fxCdkStack = new FxCdkStack(app, 'FxCdkStack', {
   env,
 })
 
+// cdk deploy FxHttpApiStack
 const httpApiStack = new FxHttpApiStack(app, 'FxHttpApiStack', {
   env,
 })
