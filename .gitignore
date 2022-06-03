@@ -1,8 +1,18 @@
-*.js
-!jest.config.js
+# node
 *.d.ts
 node_modules
 
-# CDK asset staging directory
+# misc
+*.js
+!jest.config.js
+
+# cdk asset staging directory
 .cdk.staging
 cdk.out
+
+# project/process
+/notes
+
+# if you are using aws-cdk on your own aws account, you should remove cdk.context.json
+# from .gitignore and commit it to git @see https://docs.aws.amazon.com/cdk/v2/guide/context.html
+cdk.context.json
