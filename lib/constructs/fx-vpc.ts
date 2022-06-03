@@ -65,30 +65,21 @@ export class FxVpc extends Construct {
   constructor(scope: Construct, id: string, props: FxVpcProps) {
     super(scope, id)
 
+    const subnetConfiguration = [
+      ec2.SubnetType.PUBLIC,
+      ec2.SubnetType.PRIVATE_WITH_NAT,
+      ec2.SubnetType.PRIVATE_ISOLATED,
+    ].flatMap((subnetConfig) =>
+      this.createSubnetConfigurations(subnetConfig, props.subnets?.activeCount, props.subnets?.totalCount),
+    )
+
     this.vpc = new ec2.Vpc(this, 'VPC', {
       cidr: props.cidr ?? '10.0.0.0/16',
       maxAzs: props.maxAzs ?? 2,
       enableDnsSupport: true,
       enableDnsHostnames: true,
-      subnetConfiguration: [
-        ...this.createSubnetConfigurations(
-          ec2.SubnetType.PUBLIC,
-          props.subnets?.activeCount,
-          props.subnets?.totalCount,
-        ),
-        ...this.createSubnetConfigurations(
-          ec2.SubnetType.PRIVATE_WITH_NAT,
-          props.subnets?.activeCount,
-          props.subnets?.totalCount,
-        ),
-        ...this.createSubnetConfigurations(
-          ec2.SubnetType.PRIVATE_ISOLATED,
-          props.subnets?.activeCount,
-          props.subnets?.totalCount,
-        ),
-      ],
+      subnetConfiguration,
       natGateways: props.nat?.count ?? 1,
-      // natGatewaySubnets
       natGatewayProvider:
         (props.nat?.type ?? 'gateway') === 'gateway'
           ? ec2.NatProvider.gateway({ eipAllocationIds: props.nat?.eipAllocationIds })
@@ -117,7 +108,7 @@ export class FxVpc extends Construct {
    * @param cidrMask cidr mask for this subnet (defaults to `24`)
    * @returns subnet configuration options
    */
-  createSubnetConfigurations(
+  private createSubnetConfigurations(
     subnetType: ec2.SubnetType,
     activeCount: number = 1,
     totalCount: number = 4,
@@ -134,7 +125,7 @@ export class FxVpc extends Construct {
           name: `${subnetType}${index === 0 ? '' : ` ${index + 1}`}`,
           cidrMask,
           subnetType,
-          reserved: index + 1 <= activeCount,
+          reserved: index + 1 > activeCount,
         }
       })
   }
@@ -149,7 +140,7 @@ export class FxVpc extends Construct {
    *
    * @returns object containing the bastion + security group
    */
-  createBastion(): FxVpcBastion {
+  private createBastion(): FxVpcBastion {
     const securityGroup = new ec2.SecurityGroup(this, 'BastionSG', {
       vpc: this.vpc,
       allowAllOutbound: true,
@@ -168,7 +159,7 @@ export class FxVpc extends Construct {
     }
   }
 
-  createStackOutputs() {
+  private createStackOutputs() {
     if (this.bastion) {
       new CfnOutput(this, 'BastionInstanceId', {
         value: this.bastion.instance.instanceId,
