@@ -8,8 +8,8 @@ const app = new cdk.App()
 
 // https://docs.aws.amazon.com/cdk/latest/guide/environments.html
 const env = {
-  account: app.node.tryGetContext('region') || process.env.CDK_DEPLOY_ACCOUNT || process.env.CDK_DEFAULT_ACCOUNT,
-  region: app.node.tryGetContext('account') || process.env.CDK_DEPLOY_REGION || process.env.CDK_DEFAULT_REGION,
+  account: app.node.tryGetContext('account') || process.env.CDK_DEPLOY_ACCOUNT || process.env.CDK_DEFAULT_ACCOUNT,
+  region: app.node.tryGetContext('region') || process.env.CDK_DEPLOY_REGION || process.env.CDK_DEFAULT_REGION,
 }
 
 // cdk deploy FxCdkStack
